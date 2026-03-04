@@ -1,19 +1,18 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/layout/Layout';
-import Dashboard from './pages/Dashboard';
-import Contacts from './pages/Contacts';
-import Pipeline from './pages/Pipeline';
+// src/App.jsx
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import LoginPage       from "./pages/LoginPage";
+import DashboardLayout from "./components/layout/DashboardLayout";
+import "./styles/global.css";
+
+function AppRouter() {
+  const { user } = useAuth();
+  return user ? <DashboardLayout /> : <LoginPage />;
+}
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="contacts" element={<Contacts />} />
-          <Route path="pipeline" element={<Pipeline />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <AppRouter />
+    </AuthProvider>
   );
 }
